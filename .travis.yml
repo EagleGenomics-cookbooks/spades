@@ -14,6 +14,7 @@ services: docker
 env:
   global:
   - RUBYOPT="-W0"
+  - secure: Fpw4dwKKEsu7SWsLVHZz/Eg5DebRRngOdXWelyD+i+X8ZscEYgjGD9j6ql6La6CtGy4AcLcRaH00Tk2nJmlAWty7bDYUlzaO2O/Lb4t33Kjih/X109JqLOYMFJ5sbie8k0U38Cilm2pzvJjYydRuGC/AbwKptGN+MM92GYXHdFfNSU7KTdn4ZNRFff1DukW7ExBdsg7mRVh1qgV6aEhXUsZoJYy+fGcBFNm/LTetvzilyNB3pfR8hM1K3mghwElZ8P6c4rrSfHIhrTypkphV4zwLMQ/oKvSEulLeTskIEUkzkYZMxbqUkarU0j6AYtsxyuvOZQom1bQ51TfxbAsQUHpfqTodBiyotBKupo7JMHgMEaCxTTuQpc6GHgLnBQPp1TgKrTIwwDxVFX8eqPmSbMoBumlJMeswk5G5lzNHruzz5rk5AtIg90vv0YTmVvjXKNMPRKCfhUcI8jgy/KJmnrLdHB4SfknBJ9dsa3JIAODrttklWz4utA/JAJL6Qw1I+cKYgmB3CXWWxs3YUT7tlOUH71oIvaI39XFQvvdgX3LRvSa06WnYpL/uK6yuEKRCo2CqRp3hQWuXyOqEaIU8w4t32mIWHTeOaggU7wPlsbYzrC3Qlg/q+xxatcovuAG/UVUENnlcPUN1pUmKfm2f28o4o3WCtybAENLgHJSFmho=
   matrix:
   - CHEF_VERSION=current INSTANCE=default-ubuntu-1404
 before_script:
@@ -30,3 +31,6 @@ notifications:
   email:
     on_success: change
     on_failure: always
+after_success:
+- chmod +x trigger_dependent_build.sh
+- "./trigger_dependent_build.sh EagleGenomics-cookbooks spades-runnable private $TRAVIS_ACCESS_TOKEN"
